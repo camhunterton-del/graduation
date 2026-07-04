@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Graduation — AI agents that argue business ideas into existence</title>
+<meta name="description" content="Graduation is a desktop app where three AI agents debate business ideas, graduate the winners, and build them for you. You just approve the money moves." />
+<style>
+  :root{ --bg:#0d0e12; --panel:#16181f; --panel2:#1c1f27; --line:#262a34; --text:#f2f3f6; --muted:#a2a6b2; --muted2:#767b88; --accent:#6b7cff; --accent2:#a56bff; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{ background:var(--bg); color:var(--text); font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",sans-serif; letter-spacing:-0.011em; -webkit-font-smoothing:antialiased; }
+  a{ color:inherit; text-decoration:none; }
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 24px; }
+  .grad{ background:linear-gradient(120deg,var(--accent),var(--accent2)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  /* nav */
+  nav{ display:flex; align-items:center; justify-content:space-between; padding:22px 0; }
+  .brand{ display:flex; align-items:center; gap:11px; font-weight:600; font-size:18px; letter-spacing:-0.02em; }
+  .brand img{ width:32px; height:32px; }
+  .nav-cta{ border:1px solid var(--line); padding:9px 18px; border-radius:10px; font-size:14px; font-weight:500; color:var(--muted); transition:.15s; }
+  .nav-cta:hover{ color:var(--text); border-color:var(--accent); }
+  /* hero */
+  .hero{ text-align:center; padding:70px 0 60px; }
+  .hero img.mark{ width:92px; height:92px; margin-bottom:26px; filter:drop-shadow(0 8px 30px rgba(107,124,255,.35)); }
+  .hero h1{ font-size:clamp(34px,6vw,58px); font-weight:600; letter-spacing:-0.035em; line-height:1.06; max-width:16ch; margin:0 auto 20px; }
+  .hero p{ font-size:clamp(16px,2.4vw,20px); color:var(--muted); max-width:56ch; margin:0 auto 34px; line-height:1.55; }
+  .btn{ display:inline-block; background:linear-gradient(120deg,var(--accent),var(--accent2)); color:#fff; padding:15px 30px; border-radius:13px; font-weight:600; font-size:16px; transition:.15s; }
+  .btn:hover{ filter:brightness(1.08); transform:translateY(-1px); }
+  .btn-ghost{ display:inline-block; padding:15px 24px; color:var(--muted); font-weight:500; }
+  /* sections */
+  section{ padding:56px 0; }
+  .eyebrow{ text-transform:uppercase; letter-spacing:.14em; font-size:12px; font-weight:600; color:var(--accent); text-align:center; margin-bottom:12px; }
+  h2{ font-size:clamp(26px,4vw,38px); font-weight:600; letter-spacing:-0.03em; text-align:center; margin-bottom:14px; }
+  .lead{ text-align:center; color:var(--muted); max-width:60ch; margin:0 auto 44px; font-size:17px; }
+  .steps{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px; }
+  .step{ background:var(--panel); border:1px solid var(--line); border-radius:18px; padding:26px; }
+  .step .n{ font-size:13px; font-weight:700; color:var(--accent); margin-bottom:12px; letter-spacing:.04em; }
+  .step h3{ font-size:18px; font-weight:600; letter-spacing:-0.02em; margin-bottom:8px; }
+  .step p{ color:var(--muted); font-size:14.5px; line-height:1.55; }
+  /* pricing */
+  .tiers{ display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:18px; max-width:920px; margin:0 auto; }
+  .tier{ position:relative; background:var(--panel); border:1px solid var(--line); border-radius:20px; padding:30px 26px; display:flex; flex-direction:column; }
+  .tier.feat{ border-color:var(--accent); box-shadow:0 0 0 1px var(--accent), 0 20px 50px rgba(107,124,255,.14); }
+  .tier .badge{ position:absolute; top:-11px; left:26px; background:linear-gradient(120deg,var(--accent),var(--accent2)); color:#fff; font-size:11px; font-weight:600; letter-spacing:.05em; text-transform:uppercase; padding:4px 11px; border-radius:999px; }
+  .tier .name{ font-size:13px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted2); font-weight:600; margin-bottom:12px; }
+  .tier .price{ font-size:38px; font-weight:600; letter-spacing:-0.03em; }
+  .tier .per{ font-size:15px; color:var(--muted2); font-weight:500; }
+  .tier .blurb{ color:var(--muted); font-size:14px; margin:6px 0 20px; }
+  .tier ul{ list-style:none; flex:1; margin-bottom:24px; }
+  .tier li{ font-size:14px; color:var(--text); padding:8px 0 8px 26px; position:relative; border-top:1px solid var(--line); }
+  .tier li:first-child{ border-top:0; }
+  .tier li::before{ content:"✓"; position:absolute; left:0; color:var(--accent); font-weight:700; }
+  .tier .choose{ text-align:center; background:var(--panel2); border:1px solid var(--line); color:var(--text); padding:13px; border-radius:12px; font-weight:600; font-size:15px; transition:.15s; }
+  .tier .choose:hover{ border-color:var(--accent); }
+  .tier.feat .choose{ background:linear-gradient(120deg,var(--accent),var(--accent2)); border:0; }
+  /* footer */
+  footer{ border-top:1px solid var(--line); padding:40px 0; text-align:center; color:var(--muted2); font-size:14px; }
+  footer a{ color:var(--muted); }
+  footer a:hover{ color:var(--text); }
+  .foot-brand{ display:flex; align-items:center; justify-content:center; gap:9px; margin-bottom:14px; font-weight:600; color:var(--text); }
+  .foot-brand img{ width:26px; height:26px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a class="brand" href="#"><img src="logo.png" alt="Graduation logo"> Graduation</a>
+    <a class="nav-cta" href="#pricing">See pricing</a>
+  </nav>
+
+  <header class="hero">
+    <img class="mark" src="logo.png" alt="Graduation logo" />
+    <h1>Three AI agents argue business ideas <span class="grad">into existence.</span></h1>
+    <p>Graduation is a desktop app where a Researcher, a Pitch, and a Critic debate income ideas live — until one graduates. Then agent teams build the winners while you sleep. You just approve the money moves.</p>
+    <a class="btn" href="#pricing">Apply for access</a>
+    <a class="btn-ghost" href="#how">See how it works ↓</a>
+  </header>
+</div>
+
+<section id="how">
+  <div class="wrap">
+    <div class="eyebrow">How it works</div>
+    <h2>Ideas, forged in The Crucible.</h2>
+    <p class="lead">You watch it happen in real time — or leave it on auto-pilot and check the winners later.</p>
+    <div class="steps">
+      <div class="step"><div class="n">01 · The Crucible</div><h3>Three agents debate</h3><p>A Researcher scopes the market, a Pitch makes the case, and a Critic tears in — arguing until the idea is convinced or killed.</p></div>
+      <div class="step"><div class="n">02 · Graduated</div><h3>Winners graduate</h3><p>Ideas that survive the debate get a full plan and land in your Graduated board, ready to build.</p></div>
+      <div class="step"><div class="n">03 · Workroom</div><h3>Agents build it</h3><p>A Planner and Executor pair produce real deliverables for each idea — researching live on the web and checking each other's work.</p></div>
+      <div class="step"><div class="n">04 · Master Inbox</div><h3>You just approve</h3><p>Only what genuinely needs a human — pay, sign off, send, decide — surfaces to you. The agents handle the rest.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="eyebrow">Pricing</div>
+    <h2>Pick your tier.</h2>
+    <p class="lead">Every plan runs the full engine. Higher tiers unlock more reach, more automation, and your personal projects hub.</p>
+    <div class="tiers">
+      <div class="tier">
+        <div class="name">C-Tier</div>
+        <div class="price">$149.99<span class="per"> /mo</span></div>
+        <div class="blurb">The core engine.</div>
+        <ul><li>The Crucible — 3 agents debate live</li><li>Graduated ideas + build agents</li><li>Master Inbox — only what needs you</li><li>Auto-pilot</li></ul>
+        <a class="choose" href="#">Choose C-Tier</a>
+      </div>
+      <div class="tier feat">
+        <div class="badge">Most popular</div>
+        <div class="name">B-Tier</div>
+        <div class="price">$249.99<span class="per"> /mo</span></div>
+        <div class="blurb">For serious builders.</div>
+        <ul><li>Everything in C-Tier</li><li>Multi-market rotation</li><li>Agents use your live browser</li><li>Background engine (runs while closed)</li></ul>
+        <a class="choose" href="#">Choose B-Tier</a>
+      </div>
+      <div class="tier">
+        <div class="name">S-Tier</div>
+        <div class="price">$399.99<span class="per"> /mo</span></div>
+        <div class="blurb">The whole thing.</div>
+        <ul><li>Everything in B-Tier</li><li>Personal projects hub</li><li>Priority + unlimited</li><li>First access to new features</li></ul>
+        <a class="choose" href="#">Choose S-Tier</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-brand"><img src="logo.png" alt=""> Graduation</div>
+    <p>Questions? <a href="mailto:hello@graduation.app">hello@graduation.app</a></p>
+    <p style="margin-top:10px;">© 2026 Graduation. A desktop app for building income ideas with AI agents.</p>
+  </div>
+</footer>
+</body>
+</html>
